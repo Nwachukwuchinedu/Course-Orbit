@@ -18,16 +18,19 @@ export default function Home() {
     setIsLoading(true); // Start loading
     setNewCoursesLoading(true); // Indicate new courses are loading
     try {
-      const response = await fetch("http://localhost:3000/api/courses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          filters: {},
-          offset: newOffset,
-        }),
-      });
+      const response = await fetch(
+        "https://course-orbit-api.onrender.com/api/courses",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            filters: {},
+            offset: newOffset,
+          }),
+        }
+      );
       const data = await response.json();
 
       // Add the new courses to the existing ones
