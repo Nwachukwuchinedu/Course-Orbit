@@ -1,21 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CourseCard from "../components/CourseCard";
 
 export default function Home() {
-  const [courses, setCourses] = useState<any[]>([]);
-  const [offset, setOffset] = useState(30);
-  const [isLoading, setIsLoading] = useState(false);
-  const [heroRef, heroInView] = useInView({ triggerOnce: true });
-  const [featuredRef, featuredInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [courses, setCourses] = useState<any[]>([]); // State to store all courses
+  const [offset, setOffset] = useState(30); // State to manage offset for pagination
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading status
+
+  const hasFetched = useRef(false); // Ref to ensure that we fetch data only once on mount
 
   // Function to fetch courses
   const fetchCourses = async (newOffset: number) => {
+    if (isLoading) return; // Prevent fetching if already loading
     setIsLoading(true); // Start loading
     try {
       const response = await fetch(
@@ -32,7 +30,9 @@ export default function Home() {
         }
       );
       const data = await response.json();
-      setCourses((prevCourses) => [...prevCourses, ...data]); // Append new courses
+
+      // Add the new courses to the existing ones
+      setCourses((prevCourses) => [...prevCourses, ...data]);
     } catch (error) {
       console.error("Error fetching courses:", error);
     } finally {
@@ -40,9 +40,13 @@ export default function Home() {
     }
   };
 
+  // This effect runs only once when the component mounts (on initial load)
   useEffect(() => {
-    fetchCourses(offset); // Initially load courses
-  }, [offset]);
+    if (!hasFetched.current) {
+      fetchCourses(offset); // Fetch the first batch of courses when the page loads
+      hasFetched.current = true; // Ensure it only runs once
+    }
+  }, []); // Empty dependency array ensures it only runs once on mount
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -69,9 +73,8 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <motion.div
-        ref={heroRef}
         initial="hidden"
-        animate={heroInView ? "visible" : "hidden"}
+        animate="visible"
         variants={containerVariants}
         className="relative h-screen"
       >
@@ -113,9 +116,8 @@ export default function Home() {
       {/* Featured Courses Section */}
       <motion.section
         id="courses"
-        ref={featuredRef}
         initial="hidden"
-        animate={featuredInView ? "visible" : "hidden"}
+        animate="visible"
         variants={containerVariants}
         className="py-20 bg-gray-50"
       >
@@ -182,9 +184,13 @@ export default function Home() {
           {/* Get More Button with Loading Animation */}
           <motion.button
             onClick={() => {
-              setIsLoading(true);
-              setOffset((prevOffset) => prevOffset + 30);
+              if (!isLoading) {
+                const newOffset = offset + 30;
+                setOffset(newOffset);
+                fetchCourses(newOffset); // Fetch more courses based on the new offset
+              }
             }}
+            disabled={isLoading} // Disable the button while loading
             className="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
           >
             {isLoading ? (
@@ -199,7 +205,7 @@ export default function Home() {
       {/* Features Section */}
       <motion.section
         initial="hidden"
-        animate={featuredInView ? "visible" : "hidden"}
+        animate="visible"
         variants={containerVariants}
         className="py-20 bg-white"
       >
@@ -216,7 +222,7 @@ export default function Home() {
                 Expert Instructors
               </h3>
               <p className="text-gray-600">
-                Learn from industry professionals with years of experience.
+                Learn from industry leaders with years of experience.
               </p>
             </motion.div>
             <motion.div
@@ -227,7 +233,7 @@ export default function Home() {
                 Flexible Learning
               </h3>
               <p className="text-gray-600">
-                Study at your own pace, anywhere and anytime.
+                Learn at your own pace with online courses available 24/7.
               </p>
             </motion.div>
             <motion.div
@@ -235,10 +241,10 @@ export default function Home() {
               className="p-6 bg-gray-50 rounded-xl"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Certified Courses
+                Certifications
               </h3>
               <p className="text-gray-600">
-                Earn recognized certificates upon completion.
+                Receive a certificate to showcase your skills.
               </p>
             </motion.div>
           </motion.div>
