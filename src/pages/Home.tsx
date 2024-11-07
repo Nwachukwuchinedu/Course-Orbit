@@ -9,11 +9,10 @@ export default function Home() {
   const [offset, setOffset] = useState(30); // State to manage offset for pagination
   const [isLoading, setIsLoading] = useState(false); // State to manage loading status
 
-  const hasFetched = useRef(false); // Ref to ensure that we fetch data only once on mount
+  // Use a ref to track the initial fetch
+  const hasFetchedInitialData = useRef(false);
 
-  // Function to fetch courses
   const fetchCourses = async (newOffset: number) => {
-    if (isLoading) return; // Prevent fetching if already loading
     setIsLoading(true); // Start loading
     try {
       const response = await fetch(
@@ -40,13 +39,13 @@ export default function Home() {
     }
   };
 
-  // This effect runs only once when the component mounts (on initial load)
+  // Fetch initial courses only once using useRef to track the fetch state
   useEffect(() => {
-    if (!hasFetched.current) {
+    if (!hasFetchedInitialData.current) {
       fetchCourses(offset); // Fetch the first batch of courses when the page loads
-      hasFetched.current = true; // Ensure it only runs once
+      hasFetchedInitialData.current = true; // Set ref to true to prevent double fetching
     }
-  }, []); // Empty dependency array ensures it only runs once on mount
+  }, [offset]); // Only trigger the effect based on offset
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -185,9 +184,11 @@ export default function Home() {
           <motion.button
             onClick={() => {
               if (!isLoading) {
-                const newOffset = offset + 30;
-                setOffset(newOffset);
-                fetchCourses(newOffset); // Fetch more courses based on the new offset
+                setOffset((prevOffset) => {
+                  const newOffset = prevOffset + 30;
+                  fetchCourses(newOffset); // Fetch more courses based on the new offset
+                  return newOffset; // Update the offset for the next request
+                });
               }
             }}
             disabled={isLoading} // Disable the button while loading
@@ -222,7 +223,7 @@ export default function Home() {
                 Expert Instructors
               </h3>
               <p className="text-gray-600">
-                Learn from industry leaders with years of experience.
+                Learn from industry professionals with years of experience.
               </p>
             </motion.div>
             <motion.div
@@ -233,7 +234,7 @@ export default function Home() {
                 Flexible Learning
               </h3>
               <p className="text-gray-600">
-                Learn at your own pace with online courses available 24/7.
+                Study at your own pace, anytime and anywhere.
               </p>
             </motion.div>
             <motion.div
@@ -241,10 +242,10 @@ export default function Home() {
               className="p-6 bg-gray-50 rounded-xl"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Certifications
+                Certification
               </h3>
               <p className="text-gray-600">
-                Receive a certificate to showcase your skills.
+                Get a certificate of completion to boost your career.
               </p>
             </motion.div>
           </motion.div>
