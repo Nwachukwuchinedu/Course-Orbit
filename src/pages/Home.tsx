@@ -8,26 +8,26 @@ export default function Home() {
   const [courses, setCourses] = useState<any[]>([]); // State to store all courses
   const [offset, setOffset] = useState(30); // State to manage offset for pagination
   const [isLoading, setIsLoading] = useState(false); // State to manage loading status
+  const [newCoursesLoading, setNewCoursesLoading] = useState(false); // New state for loading new courses
 
-  // Use a ref to track the initial fetch
-  const hasFetchedInitialData = useRef(false);
+  const hasFetched = useRef(false); // Ref to ensure that we fetch data only once on mount
 
+  // Function to fetch courses
   const fetchCourses = async (newOffset: number) => {
+    if (isLoading) return; // Prevent fetching if already loading
     setIsLoading(true); // Start loading
+    setNewCoursesLoading(true); // Indicate new courses are loading
     try {
-      const response = await fetch(
-        "https://course-orbit-api.onrender.com/api/courses",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            filters: {},
-            offset: newOffset,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/courses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filters: {},
+          offset: newOffset,
+        }),
+      });
       const data = await response.json();
 
       // Add the new courses to the existing ones
@@ -36,16 +36,17 @@ export default function Home() {
       console.error("Error fetching courses:", error);
     } finally {
       setIsLoading(false); // Stop loading
+      setNewCoursesLoading(false); // New courses loading done
     }
   };
 
-  // Fetch initial courses only once using useRef to track the fetch state
+  // This effect runs only once when the component mounts (on initial load)
   useEffect(() => {
-    if (!hasFetchedInitialData.current) {
+    if (!hasFetched.current) {
       fetchCourses(offset); // Fetch the first batch of courses when the page loads
-      hasFetchedInitialData.current = true; // Set ref to true to prevent double fetching
+      hasFetched.current = true; // Ensure it only runs once
     }
-  }, [offset]); // Only trigger the effect based on offset
+  }, []); // Empty dependency array ensures it only runs once on mount
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -131,8 +132,8 @@ export default function Home() {
             variants={containerVariants}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {isLoading
-              ? // Complex loading placeholder
+            {isLoading && !newCoursesLoading
+              ? // Complex loading placeholder for the first set of courses
                 Array(6)
                   .fill(null)
                   .map((_, index) => (
@@ -178,17 +179,33 @@ export default function Home() {
                     />
                   </motion.div>
                 ))}
+            {/* Loading Placeholder for New Courses */}
+            {newCoursesLoading &&
+              Array(6)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="animate-pulse bg-white p-6 rounded-lg shadow-md space-y-4"
+                  >
+                    <div className="bg-gray-200 w-full h-48 rounded-md" />
+                    <div className="space-y-2">
+                      <div className="bg-gray-200 h-6 w-3/4 rounded"></div>
+                      <div className="bg-gray-200 h-4 w-1/2 rounded"></div>
+                      <div className="bg-gray-200 h-4 w-1/3 rounded"></div>
+                      <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                    </div>
+                  </div>
+                ))}
           </motion.div>
 
           {/* Get More Button with Loading Animation */}
           <motion.button
             onClick={() => {
               if (!isLoading) {
-                setOffset((prevOffset) => {
-                  const newOffset = prevOffset + 30;
-                  fetchCourses(newOffset); // Fetch more courses based on the new offset
-                  return newOffset; // Update the offset for the next request
-                });
+                const newOffset = offset + 30;
+                setOffset(newOffset);
+                fetchCourses(newOffset); // Fetch more courses based on the new offset
               }
             }}
             disabled={isLoading} // Disable the button while loading
@@ -223,7 +240,8 @@ export default function Home() {
                 Expert Instructors
               </h3>
               <p className="text-gray-600">
-                Learn from industry professionals with years of experience.
+                Learn from industry experts who are passionate about teaching
+                and sharing their knowledge.
               </p>
             </motion.div>
             <motion.div
@@ -234,7 +252,8 @@ export default function Home() {
                 Flexible Learning
               </h3>
               <p className="text-gray-600">
-                Study at your own pace, anytime and anywhere.
+                Learn at your own pace, anytime, anywhere, with lifetime access
+                to course materials.
               </p>
             </motion.div>
             <motion.div
@@ -242,10 +261,11 @@ export default function Home() {
               className="p-6 bg-gray-50 rounded-xl"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-4">
-                Certification
+                Industry Recognized Certificates
               </h3>
               <p className="text-gray-600">
-                Get a certificate of completion to boost your career.
+                Earn certifications that are recognized by top companies and
+                enhance your career.
               </p>
             </motion.div>
           </motion.div>
