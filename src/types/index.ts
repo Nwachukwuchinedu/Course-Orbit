@@ -15,6 +15,8 @@ export interface Course {
   what_you_will_learn_data: string[];
   requirements_data: string[];
   description: string;
+   id_name: string;
+   coupon_code: string;
 }
 
 export interface User {
