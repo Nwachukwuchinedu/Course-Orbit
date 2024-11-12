@@ -24,7 +24,7 @@ export default function CourseDetails() {
     const fetchCourseDetails = async () => {
       try {
         const response = await axios.get<Course>(
-          `http://localhost:3000/api/courses/${courseId}`
+          `https://course-orbit-api.onrender.com/api/courses/${courseId}`
         );
         setCourse(response.data);
         setLoading(false);
