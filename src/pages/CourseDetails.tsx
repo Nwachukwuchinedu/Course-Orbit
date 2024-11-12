@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Clock,
   Globe,
@@ -202,6 +203,18 @@ export default function CourseDetails() {
           </ul>
         </motion.div>
       </motion.div>
+
+      {/* Floating 'Enroll Now' Button */}
+      <div className="fixed bottom-5 right-5">
+        <a
+          href={`https://www.udemy.com/course/${course.id_name}/?couponCode=${course.coupon_code}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full shadow-lg"
+        >
+          Enroll Now
+        </a>
+      </div>
     </div>
   );
 }
