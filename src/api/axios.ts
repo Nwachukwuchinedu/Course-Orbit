@@ -1,8 +1,11 @@
+// axios.ts
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuthContext } from "../components/AuthContext";
 
 export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const { isAuthenticated, setIsAuthenticated } = useAuthContext();
   const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export const useAuth = () => {
         });
     }
   }, []);
-  console.log(isAuthenticated,userData);
   
   return { isAuthenticated, userData, setIsAuthenticated };
 };
+
