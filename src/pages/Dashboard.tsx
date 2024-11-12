@@ -233,6 +233,8 @@ export default function Dashboard() {
                                 what_you_will_learn_data:
                                   course.what_you_will_learn_data,
                                 requirements_data: course.requirements_data,
+                                id_name: course.id_name,
+                                coupon_code: course.coupon_code,
                               }}
                             />
                           </Link>
