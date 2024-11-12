@@ -1,7 +1,9 @@
+// AuthForm.tsx
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { useAuthContext } from "./AuthContext";
 
 interface AuthFormProps {
   type: "login" | "signup" | "forgotPassword" | "resetPassword";
@@ -23,6 +25,8 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+
+  const { setIsAuthenticated } = useAuthContext();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -82,6 +86,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
           );
           const token = response.data.token;
           localStorage.setItem("jwtToken", token); // Save token
+          setIsAuthenticated(true);
           navigate("/dashboard"); // Redirect to dashboard after login
         }
       } catch (err) {
