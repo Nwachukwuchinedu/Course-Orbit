@@ -81,6 +81,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           password: formData.password,
         });
         const token = response.data.token;
+        localStorage.setItem("jwtToken", token); // Save token
         setIsAuthenticated(true);
         navigate("/dashboard");
       }
