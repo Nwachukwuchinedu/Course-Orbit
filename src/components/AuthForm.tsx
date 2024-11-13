@@ -64,34 +64,54 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
   const apiLoginUrl = import.meta.env.VITE_API_URL_LOGIN;
   const apiSignupUrl = import.meta.env.VITE_API_URL_SIGNUP;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        if (type === "signup") {
-          const response = await axios.post(apiSignupUrl, {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-          });
-          alert("Account created successfully.");
-          navigate("/login");
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (validateForm()) {
+    try {
+      if (type === "signup") {
+        const response = await axios.post(apiSignupUrl, {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        navigate("/login");
+      } else if (type === "login") {
+        const response = await axios.post(apiLoginUrl, {
+          email: formData.email,
+          password: formData.password,
+        });
+        const token = response.data.token;
+        setIsAuthenticated(true);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const { data } = error.response;
+        if (type === "signup" && data.message) {
+          setErrors({ email: data.message });
         } else if (type === "login") {
-          const response = await axios.post(apiLoginUrl, {
-            email: formData.email,
-            password: formData.password,
+          setErrors({
+            email: data.email || "",
+            password: data.password || "",
           });
-          const token = response.data.token;
-          localStorage.setItem("jwtToken", token); // Save token
-          setIsAuthenticated(true);
-          navigate("/dashboard"); // Redirect to dashboard after login
         }
-      } catch (err) {
-        console.error(err);
-        alert("Authentication failed. Please try again.");
+
+        // Clear errors after 5 seconds
+        setTimeout(() => {
+          setErrors({});
+        }, 5000);
+      } else {
+        setErrors({ general: "An unexpected error occurred." });
+
+        // Clear general errors after 5 seconds
+        setTimeout(() => {
+          setErrors({});
+        }, 5000);
       }
     }
-  };
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
