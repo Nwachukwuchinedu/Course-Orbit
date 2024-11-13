@@ -101,7 +101,8 @@ export default function CourseDetails() {
               alt={course.title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/70" />
             <div className="absolute bottom-0 left-0 p-6 text-white">
               <span className="bg-blue-500 text-sm px-3 py-1 rounded-full mb-4 inline-block">
                 {course.primary_category}
