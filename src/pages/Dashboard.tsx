@@ -123,7 +123,7 @@ export default function Dashboard() {
           </motion.div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <motion.div
               variants={itemVariants}
               className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg p-6 text-white"
@@ -148,7 +148,7 @@ export default function Dashboard() {
               <h3 className="text-2xl font-bold mb-2">3 Certificates</h3>
               <p className="text-blue-100">Earned</p>
             </motion.div>
-          </div>
+          </div> */}
 
           {/* Enrolled Courses */}
           <motion.div
