@@ -107,7 +107,7 @@ export default function Home() {
               "url(https://images.unsplash.com/photo-1516321318423-f06f85e504b3)",
           }}
         />
-        <div className="absolute inset-0 bg-black opacity-30" />
+        <div className="absolute inset-0 bg-black opacity-70" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <motion.div variants={itemVariants} className="max-w-3xl">
             <motion.h1
@@ -126,7 +126,7 @@ export default function Home() {
             <motion.a
               variants={itemVariants}
               href="#courses"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 transition-colors"
             >
               Explore Courses
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -199,6 +199,8 @@ export default function Home() {
                         what_you_will_learn_data:
                           course.what_you_will_learn_data,
                         requirements_data: course.requirements_data,
+                        id_name: course.id_name,
+                        coupon_code: course.coupon_code,
                       }}
                     />
                   </motion.div>
@@ -227,7 +229,7 @@ export default function Home() {
           <motion.button
             onClick={handleLoadMore}
             disabled={isLoading} // Disable the button while loading
-            className="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            className="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 transition-colors"
           >
             {isLoading ? (
               <div className="animate-spin border-4 border-white border-t-transparent rounded-full w-6 h-6 mr-2"></div>
