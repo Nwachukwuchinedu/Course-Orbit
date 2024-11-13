@@ -58,13 +58,52 @@ export default function CourseDetails() {
     },
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        Loading...
+if (loading) {
+  return (
+    <div className="min-h-screen flex justify-center items-center">
+      {/* Loading Placeholder */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          {/* Course Header Placeholder */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div className="relative h-64 md:h-96 bg-gray-300 animate-pulse" />
+            <div className="absolute bottom-0 left-0 p-6 text-white">
+              <div className="bg-blue-500 text-sm px-3 py-1 rounded-full mb-4 inline-block w-24 h-6 animate-pulse" />
+              <div className="text-3xl md:text-4xl font-bold mb-2 w-48 h-8 bg-gray-300 animate-pulse" />
+              <div className="text-lg text-blue-100 w-64 h-6 bg-gray-300 animate-pulse" />
+            </div>
+          </div>
+
+          {/* Course Features Placeholder */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gray-300 animate-pulse" />
+                <div className="w-32 h-6 bg-gray-300 animate-pulse" />
+              </div>
+            ))}
+          </div>
+
+          {/* Additional Course Info Placeholder */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mt-8">
+            <div className="w-48 h-8 bg-gray-300 animate-pulse mb-4" />
+            <div className="relative">
+              <div className="w-full h-6 bg-gray-300 animate-pulse mb-4" />
+              <div className="w-24 h-6 bg-gray-300 animate-pulse" />
+              <div className="w-full h-6 bg-gray-300 animate-pulse mt-4" />
+              <div className="w-24 h-6 bg-gray-300 animate-pulse mt-4" />
+            </div>
+          </div>
+        </motion.div>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   if (error) {
     return (
