@@ -17,9 +17,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-white shadow-sm text-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 shadow-md border-b border-gray-200">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm text-black">
+      {/* Outer container now stretches the full width */}
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        {/* Navbar content */}
+        <div className="flex items-center justify-between h-16 shadow-md border-b border-gray-200 w-full">
           <Link to="/" className="flex items-center space-x-2">
             <Orbit className="h-8 w-8 text-blue-500" />
             <span className="font-bold text-xl">Course Orbit</span>
@@ -30,7 +32,7 @@ export default function Navbar() {
             {!isAuthenticated && (
               <Link
                 to="/"
-                className="hover:text-white hover:bg-blue-500 transition-colors px-2 py-1 rounded-md"
+                className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
               >
                 Home
               </Link>
@@ -39,13 +41,13 @@ export default function Navbar() {
               <>
                 <Link
                   to="/dashboard"
-                  className="hover:text-white hover:bg-blue-500 transition-colors px-2 py-1 rounded-md"
+                  className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
                   Dashboard
                 </Link>
                 <Link
                   to="/pricing"
-                  className="hover:text-white hover:bg-blue-500 transition-colors px-2 py-1 rounded-md"
+                  className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
                   Pricing
                 </Link>
@@ -60,7 +62,7 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="hover:text-white hover:bg-blue-500 transition-colors px-2 py-1 rounded-md"
+                  className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
                   Login
                 </Link>
