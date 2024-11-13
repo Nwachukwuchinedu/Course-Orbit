@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import CourseDetails from "./pages/CourseDetails";
 import Pricing from "./pages/Pricing";
 import Admin from "./pages/Admin";
+import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -54,6 +55,8 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              {/* Add the 404 route */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
