@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Users,
   BookOpen,
@@ -8,32 +8,34 @@ import {
   Plus,
   Edit,
   Trash,
-} from 'lucide-react';
-import { Course } from '../types';
+} from "lucide-react";
+import { Course } from "../types";
 
 const COURSES: Course[] = [
   {
-    id: '1',
-    title: 'Advanced Web Development',
-    headline: 'Master modern web technologies and frameworks',
-    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
-    category: 'Development',
-    duration: '40 hours',
+    id: "1",
+    title: "Advanced Web Development",
+    headline: "Master modern web technologies and frameworks",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+    primary_category: "Development",
+    content_info_short: "40 hours",
     rating: 4.8,
-    instructor: 'John Doe',
-    language: 'English',
-    difficulty: 'Advanced',
-    hasCertificate: true,
-    hasClosedCaptions: true,
-    targetAudience: ['Web Developers', 'Software Engineers'],
-    learningOutcomes: ['Master React', 'Build Full-stack Apps'],
-    requirements: ['Basic JavaScript', 'HTML & CSS'],
-    description: 'Comprehensive web development course',
+    instructors: ["John Doe"],
+    language: "English",
+    instructional_level_simple: "Advanced",
+    has_certificate: true,
+    has_closed_caption: true,
+    targetAudience: ["Web Developers", "Software Engineers"],
+    what_you_will_learn_data: ["Master React", "Build Full-stack Apps"],
+    requirements_data: ["Basic JavaScript", "HTML & CSS"],
+    description: "Comprehensive web development course",
+    id_name: 'string',
+    coupon_code: 'string',
   },
 ];
 
 export default function Admin() {
-  const [activeTab, setActiveTab] = useState('courses');
+  const [activeTab, setActiveTab] = useState("courses");
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -126,31 +128,31 @@ export default function Admin() {
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6" aria-label="Tabs">
               <button
-                onClick={() => setActiveTab('courses')}
+                onClick={() => setActiveTab("courses")}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'courses'
-                    ? 'border-purple-600 text-purple-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  activeTab === "courses"
+                    ? "border-purple-600 text-purple-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 Courses
               </button>
               <button
-                onClick={() => setActiveTab('users')}
+                onClick={() => setActiveTab("users")}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'users'
-                    ? 'border-purple-600 text-purple-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  activeTab === "users"
+                    ? "border-purple-600 text-purple-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 Users
               </button>
               <button
-                onClick={() => setActiveTab('subscriptions')}
+                onClick={() => setActiveTab("subscriptions")}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'subscriptions'
-                    ? 'border-purple-600 text-purple-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  activeTab === "subscriptions"
+                    ? "border-purple-600 text-purple-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
                 Subscriptions
@@ -160,7 +162,7 @@ export default function Admin() {
 
           {/* Content */}
           <div className="p-6">
-            {activeTab === 'courses' && (
+            {activeTab === "courses" && (
               <div>
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-bold text-gray-900">
@@ -200,7 +202,7 @@ export default function Admin() {
                               <div className="h-10 w-10 flex-shrink-0">
                                 <img
                                   className="h-10 w-10 rounded-lg object-cover"
-                                  src={course.imageUrl}
+                                  src={course.image}
                                   alt=""
                                 />
                               </div>
@@ -213,11 +215,11 @@ export default function Admin() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                              {course.category}
+                              {course.primary_category}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {course.instructor}
+                            {course.instructors[0]}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {course.rating}
