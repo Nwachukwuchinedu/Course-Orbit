@@ -38,14 +38,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* <Route
+              <Route
                 path="/pricing"
                 element={
                   <ProtectedRoute>
                     <Pricing />
                   </ProtectedRoute>
                 }
-              /> */}
+              />
               <Route
                 path="/admin"
                 element={

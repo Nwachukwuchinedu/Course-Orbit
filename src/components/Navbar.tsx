@@ -45,12 +45,12 @@ export default function Navbar() {
                 >
                   Dashboard
                 </Link>
-                <Link
+                {/* <Link
                   to="/pricing"
                   className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
                   Pricing
-                </Link>
+                </Link> */}
                 <button
                   onClick={onLogout} // Logout functionality
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400 transition-colors"
@@ -111,12 +111,12 @@ export default function Navbar() {
                   >
                     Dashboard
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/pricing"
                     className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
                   >
                     Pricing
-                  </Link>
+                  </Link> */}
                   <button
                     onClick={onLogout} // Logout functionality
                     className="w-full text-left px-3 py-2 rounded-md hover:bg-blue-500 hover:text-white transition-colors"
