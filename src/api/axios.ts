@@ -7,13 +7,13 @@ export const useAuth = () => {
 
   const { isAuthenticated, setIsAuthenticated } = useAuthContext();
   const [userData, setUserData] = useState<any>(null);
-
+  const apiUrl = import.meta.env.VITE_API_URL_ME;
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
 
     if (token) {
       axios
-        .get("https://course-orbit-api.onrender.com/api/auth/user/me", {
+        .get(apiUrl, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
