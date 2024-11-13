@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [newCoursesLoading, setNewCoursesLoading] = useState(false); // New state for loading new courses
 
   const hasFetched = useRef(false); // Ref to ensure that we fetch data only once on mount
-
+  const apiUrlCourses = import.meta.env.VITE_API_URL_COURSES;
   // Function to fetch courses
   const fetchCourses = async (newOffset: number) => {
     if (isLoading) return; // Prevent fetching if already loading
@@ -27,7 +27,7 @@ export default function Dashboard() {
     setNewCoursesLoading(true); // Indicate new courses are loading
     try {
       const response = await fetch(
-        "https://course-orbit-api.onrender.com/api/courses",
+       apiUrlCourses,
         {
           method: "POST",
           headers: {

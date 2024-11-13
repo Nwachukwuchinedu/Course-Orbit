@@ -61,29 +61,26 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
     return Object.keys(newErrors).length === 0;
   };
 
+  const apiLoginUrl = import.meta.env.VITE_API_URL_LOGIN;
+  const apiSignupUrl = import.meta.env.VITE_API_URL_SIGNUP;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
       try {
         if (type === "signup") {
-          const response = await axios.post(
-            "https://course-orbit-api.onrender.com/api/auth/signup",
-            {
-              name: formData.name,
-              email: formData.email,
-              password: formData.password,
-            }
-          );
+          const response = await axios.post(apiSignupUrl, {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+          });
           alert("Account created successfully.");
           navigate("/login");
         } else if (type === "login") {
-          const response = await axios.post(
-            "https://course-orbit-api.onrender.com/api/auth/login",
-            {
-              email: formData.email,
-              password: formData.password,
-            }
-          );
+          const response = await axios.post(apiLoginUrl, {
+            email: formData.email,
+            password: formData.password,
+          });
           const token = response.data.token;
           localStorage.setItem("jwtToken", token); // Save token
           setIsAuthenticated(true);

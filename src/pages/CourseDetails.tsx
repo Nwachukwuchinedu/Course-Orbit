@@ -20,12 +20,13 @@ export default function CourseDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false); // State for toggling description
+  const apiUrlCourses = import.meta.env.VITE_API_URL_COURSES;
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
         const response = await axios.get<Course>(
-          `https://course-orbit-api.onrender.com/api/courses/${courseId}`
+          `${apiUrlCourses}/${courseId}`
         );
         setCourse(response.data);
         setLoading(false);
