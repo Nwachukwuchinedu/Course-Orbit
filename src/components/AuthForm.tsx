@@ -157,7 +157,7 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-300 focus:border-blue-300 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-300 focus:border-blue-300 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={formData.password}
                 onChange={(e) =>
@@ -186,20 +186,14 @@ export default function AuthForm({ type, onSubmit }: AuthFormProps) {
           {type === "login" ? (
             <p>
               Don't have an account?{" "}
-              <Link
-                to="/signup"
-                className="text-blue-500 hover:text-blue-400"
-              >
+              <Link to="/signup" className="text-blue-500 hover:text-blue-400">
                 Sign up
               </Link>
             </p>
           ) : (
             <p>
               Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-blue-500 hover:text-blue-400"
-              >
+              <Link to="/login" className="text-blue-500 hover:text-blue-400">
                 Log in
               </Link>
             </p>
