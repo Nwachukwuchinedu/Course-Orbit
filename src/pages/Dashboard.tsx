@@ -264,7 +264,7 @@ export default function Dashboard() {
                 <motion.button
                   onClick={handleLoadMore}
                   disabled={isLoading} // Disable the button while loading
-                  className="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+                  className="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 transition-colors"
                 >
                   {isLoading ? (
                     <div className="animate-spin border-4 border-white border-t-transparent rounded-full w-6 h-6 mr-2"></div>
