@@ -13,7 +13,12 @@ export default function Navbar() {
   const onLogout = () => {
     localStorage.removeItem("jwtToken");
     setIsAuthenticated(false);
+    setIsOpen(false); // Close the menu after logout
     navigate("/login");
+  };
+
+  const handleLinkClick = () => {
+    setIsOpen(false); // Close the menu after clicking a link
   };
 
   return (
@@ -62,12 +67,14 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
+                  onClick={handleLinkClick} // Close the menu when clicked
                   className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
+                  onClick={handleLinkClick} // Close the menu when clicked
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400 transition-colors"
                 >
                   Sign Up
@@ -83,67 +90,72 @@ export default function Navbar() {
               className="text-black hover:text-blue-400 transition-colors"
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-8 w-8" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-8 w-8" />
               )}
             </button>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 shadow-md border-t border-gray-200">
-              {!isAuthenticated && (
-                <Link
-                  to="/"
-                  className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
-                >
-                  Home
-                </Link>
-              )}
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    to="/dashboard"
-                    className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
-                  >
-                    Dashboard
-                  </Link>
-                  {/* <Link
-                    to="/pricing"
-                    className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
-                  >
-                    Pricing
-                  </Link> */}
-                  <button
-                    onClick={onLogout} // Logout functionality
-                    className="w-full text-left px-3 py-2 rounded-md hover:bg-blue-500 hover:text-white transition-colors"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="block px-3 py-2 rounded-md hover:text-white hover:bg-blue-500 transition-colors"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-white shadow-lg border-t border-gray-200">
+          <div className="space-y-2 py-4">
+            {!isAuthenticated && (
+              <Link
+                to="/"
+                onClick={handleLinkClick} // Close the menu when clicked
+                className="block px-4 py-2 text-black hover:bg-gray-100 transition-colors"
+              >
+                Home
+              </Link>
+            )}
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={handleLinkClick} // Close the menu when clicked
+                  className="block px-4 py-2 text-black hover:bg-gray-100 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                {/* <Link
+                  to="/pricing"
+                  onClick={handleLinkClick} // Close the menu when clicked
+                  className="block px-4 py-2 text-black hover:bg-gray-100 transition-colors"
+                >
+                  Pricing
+                </Link> */}
+                <button
+                  onClick={onLogout} // Logout functionality
+                  className="block w-full text-left px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={handleLinkClick} // Close the menu when clicked
+                  className="block px-4 py-2 text-black hover:bg-gray-100 transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={handleLinkClick} // Close the menu when clicked
+                  className="block px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition-colors"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
