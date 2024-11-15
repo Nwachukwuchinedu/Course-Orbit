@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Orbit } from "lucide-react";
 import { useAuthContext } from "../components/AuthContext";
+import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ export default function Navbar() {
         {/* Navbar content */}
         <div className="flex items-center justify-between h-16 shadow-md border-b border-gray-200 w-full">
           <Link to="/" className="flex items-center space-x-2">
-            <Orbit className="h-8 w-8 text-blue-500" />
+            <img src={logo} alt="Course Orbit Logo" className="h-8 w-8" />
             <span className="font-bold text-xl">Course Orbit</span>
           </Link>
 
