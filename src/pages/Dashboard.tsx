@@ -26,6 +26,8 @@ export default function Dashboard() {
   const [fcourses, setfCourses] = useState<Course_Interface[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const apiUrlSearchCourses = import.meta.env.VITE_API_URL_SEARCH_COURSES;
+
   const handleSearch = async (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setQuery(value);
@@ -35,9 +37,7 @@ export default function Dashboard() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:3000/api/search?q=${encodeURIComponent(
-            value
-          )}`
+          `${apiUrlSearchCourses}?q=${encodeURIComponent(value)}`
         );
         const result = await response.json();
 
