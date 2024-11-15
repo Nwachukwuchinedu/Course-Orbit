@@ -1,22 +1,60 @@
 import { motion } from "framer-motion";
 import { Clock, Book, Award } from "lucide-react";
 import CourseCard from "../components/CourseCard";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { Course } from "../types";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/axios";
 
+interface Course_Interface {
+  _id: string;
+  title: string;
+  headline: string;
+  image: string;
+}
 
 export default function Dashboard() {
   const { isAuthenticated, userData } = useAuth(); // Destructure to get userData
   const navigate = useNavigate();
- 
 
-  
   const [courses, setCourses] = useState<any[]>([]); // State to store all courses
   const [offset, setOffset] = useState(30); // State to manage offset for pagination
   const [isLoading, setIsLoading] = useState(false); // State to manage loading status
   const [newCoursesLoading, setNewCoursesLoading] = useState(false); // New state for loading new courses
+
+  const [query, setQuery] = useState<string>("");
+  const [fcourses, setfCourses] = useState<Course_Interface[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSearch = async (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQuery(value);
+
+    if (value.length > 2) {
+      // Only search if input length > 2 characters
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/search?q=${encodeURIComponent(
+            value
+          )}`
+        );
+        const result = await response.json();
+
+        if (result.success) {
+          setfCourses(result.data);
+        } else {
+          setfCourses([]);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        setfCourses([]);
+      }
+      setLoading(false);
+    } else {
+      setfCourses([]);
+    }
+  };
 
   const hasFetched = useRef(false); // Ref to ensure that we fetch data only once on mount
   const apiUrlCourses = import.meta.env.VITE_API_URL_COURSES;
@@ -26,19 +64,16 @@ export default function Dashboard() {
     setIsLoading(true); // Start loading
     setNewCoursesLoading(true); // Indicate new courses are loading
     try {
-      const response = await fetch(
-       apiUrlCourses,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            filters: {},
-            offset: newOffset,
-          }),
-        }
-      );
+      const response = await fetch(apiUrlCourses, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filters: {},
+          offset: newOffset,
+        }),
+      });
       const data = await response.json();
 
       // Add the new courses to the existing ones
@@ -149,6 +184,32 @@ export default function Dashboard() {
               <p className="text-blue-100">Earned</p>
             </motion.div>
           </div> */}
+
+          <input
+            type="text"
+            placeholder="Search for a course..."
+            value={query}
+            onChange={handleSearch}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {loading && <p className="text-gray-500 mt-2">Loading...</p>}
+          <ul className="mt-4 space-y-4">
+            {fcourses.map((course) => (
+              <li
+                key={course._id}
+                className="flex items-center space-x-4 p-4 border border-gray-200 rounded-md shadow-md"
+              >
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-16 h-16 rounded-md object-cover"
+                />
+                <div>
+                  <h4 className="text-lg font-semibold">{course.title}</h4>
+                </div>
+              </li>
+            ))}
+          </ul>
 
           {/* Enrolled Courses */}
           <motion.div
