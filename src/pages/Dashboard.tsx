@@ -32,6 +32,7 @@ export default function Dashboard() {
     const value = event.target.value;
     setQuery(value);
 
+    
     if (value.length > 2) {
       // Only search if input length > 2 characters
       setLoading(true);
