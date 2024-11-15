@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/axios";
 
 interface Course_Interface {
-  _id: string;
+  id: string;
   title: string;
   headline: string;
   image: string;
@@ -195,19 +195,21 @@ export default function Dashboard() {
           {loading && <p className="text-gray-500 mt-2">Loading...</p>}
           <ul className="mt-4 space-y-4">
             {fcourses.map((course) => (
-              <li
-                key={course._id}
-                className="flex items-center space-x-4 p-4 border border-gray-200 rounded-md shadow-md"
-              >
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="w-16 h-16 rounded-md object-cover"
-                />
-                <div>
-                  <h4 className="text-lg font-semibold">{course.title}</h4>
-                </div>
-              </li>
+              <Link to={`/course/${course.id}`}>
+                <li
+                  key={course.id}
+                  className="flex items-center space-x-4 p-4 border border-gray-200 rounded-md shadow-md"
+                >
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-16 h-16 rounded-md object-cover"
+                  />
+                  <div>
+                    <h4 className="text-lg font-semibold">{course.title}</h4>
+                  </div>
+                </li>
+              </Link>
             ))}
           </ul>
 
