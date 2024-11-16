@@ -150,7 +150,7 @@ export default function Dashboard() {
             className="bg-white rounded-xl shadow-lg p-6 md:p-8"
           >
             <h1 className="text-3xl font-bold text-blue-900 mb-4">
-              Welcome back, {userData?.name || "User"}! 👋
+              Welcome back, {userData?.name || ""}! 👋
             </h1>
             <p className="text-blue-600">
               Track your progress and continue learning from where you left off.
