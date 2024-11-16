@@ -9,7 +9,6 @@ import { useAuth } from "../api/axios";
 interface Course_Interface {
   id: string;
   title: string;
-  headline: string;
   image: string;
 }
 
