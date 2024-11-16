@@ -16,7 +16,7 @@ import axios from "axios";
 import { useAuth } from "../api/axios";
 
 export default function CourseDetails() {
-  const { userData } = useAuth(); // Destructure to get userData
+
 
   const { courseId } = useParams();
   const [course, setCourse] = useState<Course | null>(null);
@@ -24,6 +24,9 @@ export default function CourseDetails() {
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false); // State for toggling description
   const apiUrlCourses = import.meta.env.VITE_API_URL_COURSES;
+
+    const { userData } = useAuth(); // Destructure to get userData
+    
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -248,19 +251,17 @@ export default function CourseDetails() {
       </motion.div>
 
       {/* Floating 'Enroll Now' Button */}
-      {!userData.paid ? (
-        // If 'paid' is false, show the disabled button
-        <div className="fixed bottom-5 right-5">
+      <div className="fixed bottom-5 right-5">
+        {!userData?.paid ? (
+          // If 'paid' is false or userData is null/undefined, show the disabled button
           <button
             className="bg-gray-400 text-white font-bold py-3 px-6 rounded-full shadow-lg cursor-not-allowed"
             disabled
           >
             Enroll Now
           </button>
-        </div>
-      ) : (
-        // If 'paid' is true, show the link
-        <div className="fixed bottom-5 right-5">
+        ) : (
+          // If 'paid' is true, show the link
           <a
             href={`https://www.udemy.com/course/${course.id_name}/?couponCode=${course.coupon_code}`}
             target="_blank"
@@ -269,8 +270,8 @@ export default function CourseDetails() {
           >
             Enroll Now
           </a>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
