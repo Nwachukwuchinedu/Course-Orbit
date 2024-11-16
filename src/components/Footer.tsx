@@ -31,14 +31,14 @@ export default function Footer() {
                   Courses
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/pricing"
                   className="text-gray-200 hover:text-gray-400 transition-colors"
                 >
                   Pricing
                 </Link>
-              </li>
+              </li> */}
               {/* <li>
                 <Link
                   to="/about"
