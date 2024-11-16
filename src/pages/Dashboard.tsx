@@ -32,7 +32,7 @@ export default function Dashboard() {
     setQuery(value);
 
     
-    if (value.length > 2) {
+    if (value.length > 0) {
       // Only search if input length > 2 characters
       setLoading(true);
       try {
