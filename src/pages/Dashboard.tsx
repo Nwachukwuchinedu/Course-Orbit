@@ -31,7 +31,6 @@ export default function Dashboard() {
     const value = event.target.value;
     setQuery(value);
 
-    
     if (value.length > 0) {
       // Only search if input length > 2 characters
       setLoading(true);
@@ -184,34 +183,43 @@ export default function Dashboard() {
               <p className="text-blue-100">Earned</p>
             </motion.div>
           </div> */}
-
-          <input
-            type="text"
-            placeholder="Search for a course..."
-            value={query}
-            onChange={handleSearch}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {loading && <p className="text-gray-500 mt-2">Loading...</p>}
-          <ul className="mt-4 space-y-4">
-            {fcourses.map((course) => (
-              <Link to={`/course/${course.id}`}>
-                <li
-                  key={course.id}
-                  className="flex items-center space-x-4 p-4 border border-gray-200 rounded-md shadow-md"
-                >
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-16 h-16 rounded-md object-cover"
-                  />
-                  <div>
-                    <h4 className="text-lg font-semibold">{course.title}</h4>
-                  </div>
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <>
+            {!userData?.paid ? (
+              <></>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  placeholder="Search for a course..."
+                  value={query}
+                  onChange={handleSearch}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {loading && <p className="text-gray-500 mt-2">Loading...</p>}
+                <ul className="mt-4 space-y-4">
+                  {fcourses.map((course) => (
+                    <Link to={`/course/${course.id}`}>
+                      <li
+                        key={course.id}
+                        className="flex items-center space-x-4 p-4 border border-gray-200 rounded-md shadow-md"
+                      >
+                        <img
+                          src={course.image}
+                          alt={course.title}
+                          className="w-16 h-16 rounded-md object-cover"
+                        />
+                        <div>
+                          <h4 className="text-lg font-semibold">
+                            {course.title}
+                          </h4>
+                        </div>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </>
+            )}
+          </>
 
           {/* Enrolled Courses */}
           <motion.div
