@@ -183,7 +183,7 @@ export default function Dashboard() {
               <p className="text-blue-100">Earned</p>
             </motion.div>
           </div> */}
-          <>
+          {/* <>
             {!userData?.paid ? (
               <></>
             ) : (
@@ -219,7 +219,7 @@ export default function Dashboard() {
                 </ul>
               </>
             )}
-          </>
+          </> */}
 
           {/* Enrolled Courses */}
           <motion.div
