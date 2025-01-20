@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { Clock, Book, Award } from "lucide-react";
 import CourseCard from "../components/CourseCard";
+import { toPng } from "html-to-image";
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { Course } from "../types";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../api/axios";
+import axios from "axios";
 
 interface Course_Interface {
   id: string;
@@ -108,6 +109,53 @@ export default function Dashboard() {
     const newOffset = offset + 30; // Increase offset by 30 for next batch
     setOffset(newOffset); // Update state with the new offset
     fetchCourses(newOffset); // Fetch more courses with the updated offset
+  };
+
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [discount, setDiscount] = useState<number | null>(null); // For storing discount
+  const [alreadyCreated, setAlreadyCreated] = useState(false); // For tracking existing discounts
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  // Fetch discount from the API
+  const fetchDiscount = async () => {
+    try {
+      const email = userData?.email;
+      if (!email) {
+        console.error("User email is undefined");
+        return;
+      }
+      // Call the API to fetch the discount
+      const response = await axios.put("http://localhost:3000/api/user/cash", {
+        email,
+      });
+      const { message, discount } = response.data;
+
+      if (message === "You can't get a discount more than once.") {
+        setDiscount(discount);
+        setAlreadyCreated(true);
+      } else {
+        setDiscount(discount);
+        setAlreadyCreated(false);
+      }
+
+      setShowOverlay(true); // Show overlay
+    } catch (error: any) {
+      console.error("Error fetching discount:", error);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (overlayRef.current) {
+      try {
+        const image = await toPng(overlayRef.current);
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = "course-orbit-discount.png";
+        link.click();
+      } catch (error) {
+        console.error("Failed to download image:", error);
+      }
+    }
   };
 
   const containerVariants = {
@@ -220,6 +268,49 @@ export default function Dashboard() {
               </>
             )}
           </> */}
+
+          {/* Button to Fetch Discount */}
+          <button
+            onClick={fetchDiscount}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none"
+          >
+            Get Discount
+          </button>
+
+          {/* Discount Overlay */}
+          {showOverlay && discount !== null && (
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+              <div
+                ref={overlayRef}
+                className="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full text-center relative"
+              >
+                <h2 className="text-2xl font-bold text-blue-900 mb-4">
+                  🎉{" "}
+                  {alreadyCreated
+                    ? "Discount Already Created"
+                    : "Congratulations!"}{" "}
+                  🎉
+                </h2>
+                <p className="text-gray-700 mb-6">
+                  {alreadyCreated
+                    ? `Discount already created, $${discount}`
+                    : `You've received a discount of $${discount}!`}
+                </p>
+                <button
+                  onClick={handleDownload}
+                  className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
+                >
+                  Download
+                </button>
+                <button
+                  onClick={() => setShowOverlay(false)}
+                  className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+                >
+                  ✖
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Enrolled Courses */}
           <motion.div
