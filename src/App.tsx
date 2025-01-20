@@ -26,17 +26,19 @@ function App() {
               <Route
                 path="/dashboard"
                 element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
+                  // <ProtectedRoute>
+                  //   <Dashboard />
+                  // </ProtectedRoute>
+                  <Dashboard />
                 }
               />
               <Route
                 path="/course/:courseId"
                 element={
-                  <ProtectedRoute>
-                    <CourseDetails />
-                  </ProtectedRoute>
+                  // <ProtectedRoute>
+                  //   <CourseDetails />
+                  // </ProtectedRoute>
+                  <CourseDetails />
                 }
               />
               <Route
