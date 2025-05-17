@@ -66,20 +66,20 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link
+                {/* <Link
                   to="/login"
                   onClick={handleLinkClick} // Close the menu when clicked
                   className="hover:text-blue-500 transition-colors px-2 py-1 rounded-md"
                 >
-                  {/* Login */}
+                  Login
                 </Link>
                 <Link
                   to="/signup"
                   onClick={handleLinkClick} // Close the menu when clicked
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-400 transition-colors"
                 >
-                  {/* Sign Up */}
-                </Link>
+                  Sign Up
+                </Link> */}
               </>
             )}
           </div>
